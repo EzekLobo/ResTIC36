@@ -1,0 +1,32 @@
+# Binários, build e dependências
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.log
+*.cache
+*.vs/
+.vscode/
+.vs/
+node_modules/
+
+# Configurações do usuário
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Configurações do sistema operacional
+Thumbs.db
+.DS_Store
+
+# Credenciais e arquivos sensíveis
+appsettings.json
+appsettings.Development.json
+secrets.json
+.env
+
+# Logs e depurações
+*.log
+logs/
