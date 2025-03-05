@@ -1,63 +1,58 @@
 namespace Uesc.Api.Controller;
 using Uesc.Infra.DATA;
 using Microsoft.AspNetCore.Mvc;
-using Uesc.Business.Entities;
 using Uesc.Business.Services;
+using Microsoft.EntityFrameworkCore;
 using Uesc.Api.DTOs.ViewModel;
 using Uesc.Api.DTOs.InputModel;
+using Uesc.Business.IRepository;
+
 
 [ApiController]
 [Route("api/[controller]")]
 public class AlunoController : ControllerBase
 {
     private readonly IAlunoService _alunoService;
+    private readonly IAlunoRepository _alunoRepository;
 
-    public AlunoController(IAlunoService alunoService)
+    public AlunoController(IAlunoService alunoService, IAlunoRepository alunoRepository)
     {
         _alunoService = alunoService;
+        _alunoRepository = alunoRepository;
     }
+    
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAlunos()
     {
-        var alunos = await Task.Run(() => _alunoService.ListarAlunos());
-        return Ok(alunos);
+        //return Ok(_alunoService.ListarAlunos());
+ 
+       return Ok(_alunoRepository.ListarAlunos());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<AlunoViewModel>> GetAluno(int matricula)
+    public async Task<ActionResult<AlunoViewModel>> GetAluno(int id)
     {
-        var aluno = await Task.Run(() => _alunoService.BuscarAlunoPorId(matricula));
-        if (aluno == null)
-            return NotFound("Aluno não encontrado");
+        //return Ok(_alunoService.BuscarAlunoPorId(id));
 
-        return Ok(aluno);
+        return Ok(_alunoRepository.BuscarAlunoPorId(id));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAluno(int matricula, [FromBody] AlunoInputModel aluno)
+    public async Task<IActionResult> PutAluno(int id, [FromBody]  AlunoInputModel aluno)
     {
-        if (matricula != aluno.Matricula)
-            return BadRequest("Matrícula inconsistente");
-
-        await Task.Run(() => _alunoService.AtualizarAluno(aluno));
-        return NoContent();
+        return Ok( _alunoService.AtualizarAluno(id, aluno));
     }
 
     [HttpPost]
     public async Task<ActionResult<AlunoViewModel>> PostAluno([FromBody] AlunoInputModel aluno)
     {
-        var novoAluno = await Task.Run(() => _alunoService.InserirAluno(aluno));
-        return CreatedAtAction(nameof(GetAluno), new { matricula = novoAluno.Matricula }, novoAluno);
+        return Ok(_alunoService.InserirAluno(aluno));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAluno(int matricula)
+    public async Task<IActionResult> DeleteAluno(int id)
     {
-        var alunoRemovido = await Task.Run(() => _alunoService.RemoverAluno(matricula));
-        if (alunoRemovido == null)
-            return NotFound("Aluno não encontrado");
-
-        return Ok(alunoRemovido);
+        return Ok(_alunoService.RemoverAluno(id));
     }
 }

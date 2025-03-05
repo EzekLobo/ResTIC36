@@ -15,34 +15,39 @@ public class AlunoRepository : IAlunoRepository
     {
         _context = context;
     }
-    public AlunoInputModel AtualizarAluno(AlunoInputModel aluno)
-    {   
-        var alunoAtualizado = _context.Alunos.FirstOrDefault(a => a.Matricula == aluno.Matricula);
-
-    if (alunoAtualizado == null)
+    public AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno)
     {
-        throw new KeyNotFoundException("Matricula não encontrada");
+    
+        var alunoAtualizado = _context.Alunos.FirstOrDefault(a => a.Id == id);
+
+        if (alunoAtualizado == null)
+        {
+            throw new KeyNotFoundException("Aluno com o ID fornecido não encontrado.");
+        }
+
+        alunoAtualizado.Matricula = aluno.Matricula;
+        alunoAtualizado.Nome = aluno.Nome;
+        
+        _context.Alunos.Update(alunoAtualizado);
+        _context.SaveChanges();
+
+
+        return aluno;
     }
 
-    alunoAtualizado.Nome = aluno.Nome;
- 
-    _context.Alunos.Update(alunoAtualizado);
-    _context.SaveChanges();
 
-    return aluno;
-    }
-
-    public AlunoViewModel BuscarAlunoPorId(int matricula)
+    public AlunoViewModel BuscarAlunoPorId(int id)
     {
-       var aluno = _context.Alunos.FirstOrDefault(a => a.Matricula == matricula);
+       var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
 
     if (aluno == null)
     {
-        throw new KeyNotFoundException("Matricula não encontrada"); 
+        throw new KeyNotFoundException("ID não encontrada"); 
     }
 
     var alunoEncontrado = new AlunoViewModel
     {
+        Id = aluno.Id,
         Matricula = aluno.Matricula,
         Nome = aluno.Nome,
     };
@@ -83,7 +88,7 @@ public class AlunoRepository : IAlunoRepository
         var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
 
     if (aluno == null)
-        throw new KeyNotFoundException("Matricula não encontrada");
+        throw new KeyNotFoundException("ID não encontrada");
     
      var alunoRemovido = new AlunoInputModel
     {

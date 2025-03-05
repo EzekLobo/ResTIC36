@@ -13,9 +13,9 @@ public class AlunoService : IAlunoService
         _alunoRepository = alunoRepository;
     }
 
-    public AlunoInputModel AtualizarAluno(AlunoInputModel aluno)
+    public AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno)
     {
-        return _alunoRepository.AtualizarAluno(aluno);
+        return _alunoRepository.AtualizarAluno(id, aluno);
     }
 
     public AlunoViewModel BuscarAlunoPorId(int id)

@@ -8,6 +8,6 @@ public interface IAlunoRepository
     List<AlunoViewModel> ListarAlunos();
     AlunoViewModel BuscarAlunoPorId(int id);
     AlunoInputModel InserirAluno(AlunoInputModel aluno);
-    AlunoInputModel AtualizarAluno(AlunoInputModel aluno);
+    AlunoInputModel AtualizarAluno(int id,AlunoInputModel aluno);
     AlunoInputModel RemoverAluno(int id);
 }
