@@ -9,6 +9,7 @@ public interface IAlunoService
     AlunoInputModel InserirAluno(AlunoInputModel aluno);
     AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno);
     AlunoInputModel RemoverAluno(int id);
+    
 
     
 }

@@ -101,4 +101,17 @@ public class AlunoRepository : IAlunoRepository
     return alunoRemovido;
     }
 
+    public AlunoViewModel VerificarAlunoPorMatricula(int matricula)
+    {
+        var aluno =_context.Alunos.FirstOrDefault(a => a.Matricula == matricula);
+        var alunoEncontrado = new AlunoViewModel
+        {
+            Id = aluno.Id,
+            Matricula = aluno.Matricula,
+            Nome = aluno.Nome,
+        };
+        // AlunoViewModel: Caso queira atualizar buscando por matrcula, já terei o objeto
+        return alunoEncontrado ;
+    }
+
 }

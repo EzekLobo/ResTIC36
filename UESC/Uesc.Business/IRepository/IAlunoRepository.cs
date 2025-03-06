@@ -10,4 +10,5 @@ public interface IAlunoRepository
     AlunoInputModel InserirAluno(AlunoInputModel aluno);
     AlunoInputModel AtualizarAluno(int id,AlunoInputModel aluno);
     AlunoInputModel RemoverAluno(int id);
+    public AlunoViewModel VerificarAlunoPorMatricula(int matricula);
 }
