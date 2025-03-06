@@ -5,6 +5,8 @@ using Uesc.Business.Entities;
 public class UescDbContext : DbContext
 {
     public DbSet<Aluno> Alunos { get; set; }
+    public DbSet<Log> Logs { get; set; }
+
 
     /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -22,5 +24,8 @@ public class UescDbContext : DbContext
     {
         modelBuilder.Entity<Aluno>()
                 .HasKey(a => a.Id);
+                
+        modelBuilder.Entity<Log>()
+                .HasKey(l => l.Id);
     }
 }
