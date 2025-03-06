@@ -23,7 +23,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization(); // Adicionando autorização caso seja necessário
+
+app.UseMiddleware<LogMiddleware>(); 
+
+app.UseAuthorization(); 
 
 app.MapControllers();
 

@@ -1,0 +1,1 @@
+{"Id":15,"Metodo":"GET","Url":"/api/Aluno","StatusCode":200,"DataHora":"2025-03-06T05:14:23.6099421Z"}
