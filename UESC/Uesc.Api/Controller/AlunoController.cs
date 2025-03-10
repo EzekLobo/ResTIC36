@@ -3,8 +3,8 @@ using Uesc.Infra.DATA;
 using Microsoft.AspNetCore.Mvc;
 using Uesc.Business.Services;
 using Microsoft.EntityFrameworkCore;
-using Uesc.Api.DTOs.ViewModel;
-using Uesc.Api.DTOs.InputModel;
+using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.DTOs.InputModel;
 using Uesc.Business.IRepository;
 
 
@@ -23,7 +23,7 @@ public class AlunoController : ControllerBase
     
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAlunos()
+    public ActionResult<AlunoViewModel> GetAlunos()
     {
         //return Ok(_alunoService.ListarAlunos());
  
@@ -31,7 +31,7 @@ public class AlunoController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<AlunoViewModel>> GetAluno(int id)
+    public ActionResult<AlunoViewModel> GetAluno(int id)
     {
         //return Ok(_alunoService.BuscarAlunoPorId(id));
 
@@ -39,19 +39,19 @@ public class AlunoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
+    public ActionResult<AlunoViewModel> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
     {
-        return Ok( _alunoService.AtualizarAluno(id, aluno));
+        return Ok(_alunoService.AtualizarAluno(id, aluno));
     }
 
     [HttpPost]
-    public async Task<ActionResult<AlunoViewModel>> PostAluno([FromBody] AlunoInputModel aluno)
+    public ActionResult<AlunoViewModel> PostAluno([FromBody] AlunoInputModel aluno)
     {
         return Ok(_alunoService.InserirAluno(aluno));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAluno(int id)
+    public ActionResult<AlunoViewModel> DeleteAluno(int id)
     {
         return Ok(_alunoService.RemoverAluno(id));
     }

@@ -1,5 +1,5 @@
-using Uesc.Api.DTOs.InputModel;
-using Uesc.Api.DTOs.ViewModel;
+using Uesc.Business.DTOs.InputModel;
+using Uesc.Business.DTOs.ViewModel;
 
 namespace Uesc.Business.IRepository;
 

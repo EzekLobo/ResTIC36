@@ -1,7 +1,8 @@
-namespace Uesc.Business.Services;
-using Uesc.Api.DTOs.InputModel;
-using Uesc.Api.DTOs.ViewModel;
 
+using Uesc.Business.DTOs.InputModel;
+using Uesc.Business.DTOs.ViewModel;
+
+namespace Uesc.Business.Services;
 public interface IAlunoService
 {
     List<AlunoViewModel> ListarAlunos();

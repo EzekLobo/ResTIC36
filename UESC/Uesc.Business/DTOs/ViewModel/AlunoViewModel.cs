@@ -1,4 +1,4 @@
-namespace Uesc.Api.DTOs.ViewModel;
+namespace Uesc.Business.DTOs.ViewModel;
 
 public class AlunoViewModel
 {

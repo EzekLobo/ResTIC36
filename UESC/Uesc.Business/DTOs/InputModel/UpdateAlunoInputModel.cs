@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace Uesc.Api.DTOs.InputModel;
+namespace Uesc.Business.DTOs.InputModel;
 
 public class UpdateAlunoInputModel
 {

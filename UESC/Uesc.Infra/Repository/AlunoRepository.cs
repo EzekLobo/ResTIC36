@@ -1,6 +1,6 @@
 
-using Uesc.Api.DTOs.InputModel;
-using Uesc.Api.DTOs.ViewModel;
+using Uesc.Business.DTOs.InputModel;
+using Uesc.Business.DTOs.ViewModel;
 using Uesc.Business.IRepository;
 using Uesc.Infra.DATA;
 using Uesc.Business.Entities;
