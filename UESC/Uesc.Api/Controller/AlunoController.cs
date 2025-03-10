@@ -39,7 +39,7 @@ public class AlunoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAluno(int id, [FromBody]  AlunoInputModel aluno)
+    public async Task<IActionResult> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
     {
         return Ok( _alunoService.AtualizarAluno(id, aluno));
     }

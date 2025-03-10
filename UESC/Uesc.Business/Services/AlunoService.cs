@@ -14,19 +14,15 @@ public class AlunoService : IAlunoService
         _alunoRepository = alunoRepository;
     }
 
-    public AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno)
+    public AlunoViewModel AtualizarAluno(int id, UpdateAlunoInputModel aluno)
     {
        try
         {
-            var alunoEncontrado = _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
-            if (alunoEncontrado != null)
-                throw new InvalidOperationException("Já existe um aluno com essa matrícula.");
-
             return _alunoRepository.AtualizarAluno(id, aluno);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Erro ao atualizar aluno.", ex);
+            throw new Exception($"Erro ao atualizar aluno: {ex.Message}");
         }
     }
 
@@ -34,31 +30,25 @@ public class AlunoService : IAlunoService
     {
         try
         {
-            var aluno = _alunoRepository.BuscarAlunoPorId(id);
-            if (aluno == null)
-                throw new KeyNotFoundException("Aluno não encontrado.");
-            
+            var aluno = _alunoRepository.BuscarAlunoPorId(id); 
             return aluno;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw new Exception("Erro inesperado ao buscar aluno.");
+            throw new Exception($"Erro inesperado ao buscar aluno: {ex.Message}");
         }
     }
 
-    public AlunoInputModel InserirAluno(AlunoInputModel aluno)
+    public AlunoViewModel InserirAluno(AlunoInputModel aluno)
     {
         try
         {
-            var alunoEncontrado = _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
-            if (alunoEncontrado != null)
-                throw new InvalidOperationException("Já existe um aluno com essa matrícula.");
-
+            _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
             return _alunoRepository.InserirAluno(aluno); 
         }
         catch (Exception ex)
         {
-            throw new Exception($"Erro ao inserir aluno.", ex);
+            throw new Exception($"Erro ao inserir aluno: {ex.Message}");
         }
     }
 
@@ -69,25 +59,21 @@ public class AlunoService : IAlunoService
         {
             return _alunoRepository.ListarAlunos();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw new Exception("Erro inesperado ao listar alunos.");
+            throw new Exception($"Erro inesperado ao listar alunos:{ex.Message}");
         }
     }
 
-    public AlunoInputModel RemoverAluno(int id)
+    public AlunoViewModel RemoverAluno(int id)
     {
         try
         {
-            var alunoRemovido = _alunoRepository.RemoverAluno(id);
-            if (alunoRemovido == null)
-                throw new KeyNotFoundException("Aluno não encontrado para remoção.");
-
-            return alunoRemovido;
+            return _alunoRepository.RemoverAluno(id);
         }
         catch (Exception ex)
         {
-            throw new Exception("Erro inesperado ao remover o aluno." , ex);
+            throw new Exception($"Erro inesperado ao remover o aluno: {ex.Message}");
         }
     }
 }

@@ -6,9 +6,9 @@ public interface IAlunoService
 {
     List<AlunoViewModel> ListarAlunos();
     AlunoViewModel BuscarAlunoPorId(int id);
-    AlunoInputModel InserirAluno(AlunoInputModel aluno);
-    AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno);
-    AlunoInputModel RemoverAluno(int id);
+    AlunoViewModel InserirAluno(AlunoInputModel aluno);
+    AlunoViewModel AtualizarAluno(int id, UpdateAlunoInputModel aluno);
+    AlunoViewModel RemoverAluno(int id);
     
 
     

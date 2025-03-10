@@ -7,8 +7,8 @@ public interface IAlunoRepository
 {
     List<AlunoViewModel> ListarAlunos();
     AlunoViewModel BuscarAlunoPorId(int id);
-    AlunoInputModel InserirAluno(AlunoInputModel aluno);
-    AlunoInputModel AtualizarAluno(int id,AlunoInputModel aluno);
-    AlunoInputModel RemoverAluno(int id);
-    public AlunoViewModel VerificarAlunoPorMatricula(int matricula);
+    AlunoViewModel InserirAluno(AlunoInputModel aluno);
+    AlunoViewModel AtualizarAluno(int id,UpdateAlunoInputModel aluno);
+    AlunoViewModel RemoverAluno(int id);
+    void VerificarAlunoPorMatricula(int matricula);
 }

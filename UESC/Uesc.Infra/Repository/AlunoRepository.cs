@@ -4,6 +4,7 @@ using Uesc.Api.DTOs.ViewModel;
 using Uesc.Business.IRepository;
 using Uesc.Infra.DATA;
 using Uesc.Business.Entities;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Uesc.Infra.Repository;
 
@@ -15,24 +16,26 @@ public class AlunoRepository : IAlunoRepository
     {
         _context = context;
     }
-    public AlunoInputModel AtualizarAluno(int id, AlunoInputModel aluno)
+    public AlunoViewModel AtualizarAluno(int id, UpdateAlunoInputModel aluno)
     {
-    
         var alunoAtualizado = _context.Alunos.FirstOrDefault(a => a.Id == id);
 
         if (alunoAtualizado == null)
-        {
             throw new KeyNotFoundException("Aluno com o ID fornecido não encontrado.");
-        }
-
-        alunoAtualizado.Matricula = aluno.Matricula;
+        
         alunoAtualizado.Nome = aluno.Nome;
         
         _context.Alunos.Update(alunoAtualizado);
         _context.SaveChanges();
 
+        var alunoViewModel = new AlunoViewModel
+        {
+            Id = alunoAtualizado.Id,
+            Matricula = alunoAtualizado.Matricula,
+            Nome = alunoAtualizado.Nome,
+        };
 
-        return aluno;
+        return alunoViewModel;
     }
 
 
@@ -41,9 +44,7 @@ public class AlunoRepository : IAlunoRepository
        var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
 
     if (aluno == null)
-    {
-        throw new KeyNotFoundException("ID não encontrada"); 
-    }
+        throw new KeyNotFoundException("ID não encontrado"); 
 
     var alunoEncontrado = new AlunoViewModel
     {
@@ -56,7 +57,7 @@ public class AlunoRepository : IAlunoRepository
         
     }
 
-    public AlunoInputModel InserirAluno(AlunoInputModel aluno)
+    public AlunoViewModel InserirAluno(AlunoInputModel aluno)
     {
         var novoAluno = new Aluno
         {
@@ -66,7 +67,14 @@ public class AlunoRepository : IAlunoRepository
 
         _context.Alunos.Add(novoAluno);
         _context.SaveChanges();
-        return aluno;
+
+
+        return new AlunoViewModel
+        {
+            Id = novoAluno.Id,
+            Matricula = novoAluno.Matricula,
+            Nome = novoAluno.Nome,
+        };
     }
 
     public List<AlunoViewModel> ListarAlunos()
@@ -83,15 +91,16 @@ public class AlunoRepository : IAlunoRepository
 
     }
 
-    public AlunoInputModel RemoverAluno(int id)
+    public AlunoViewModel RemoverAluno(int id)
     {
         var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
 
     if (aluno == null)
         throw new KeyNotFoundException("ID não encontrada");
     
-     var alunoRemovido = new AlunoInputModel
+     var alunoRemovido = new AlunoViewModel
     {
+        Id = aluno.Id,
         Matricula = aluno.Matricula,
         Nome = aluno.Nome,
     };
@@ -101,17 +110,10 @@ public class AlunoRepository : IAlunoRepository
     return alunoRemovido;
     }
 
-    public AlunoViewModel VerificarAlunoPorMatricula(int matricula)
+    public void VerificarAlunoPorMatricula(int matricula)
     {
-        var aluno =_context.Alunos.FirstOrDefault(a => a.Matricula == matricula);
-        var alunoEncontrado = new AlunoViewModel
-        {
-            Id = aluno.Id,
-            Matricula = aluno.Matricula,
-            Nome = aluno.Nome,
-        };
-        // AlunoViewModel: Caso queira atualizar buscando por matrcula, já terei o objeto
-        return alunoEncontrado ;
+        if (_context.Alunos.Any(a => a.Matricula == matricula))
+             throw new InvalidOperationException("Já existe um aluno com essa matrícula."); 
     }
 
 }
