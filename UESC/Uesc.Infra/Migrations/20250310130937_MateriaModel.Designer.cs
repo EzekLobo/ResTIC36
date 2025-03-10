@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uesc.Infra.DATA;
 
@@ -11,9 +12,11 @@ using Uesc.Infra.DATA;
 namespace Uesc.Infra.Migrations
 {
     [DbContext(typeof(UescDbContext))]
-    partial class UescDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250310130937_MateriaModel")]
+    partial class MateriaModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
