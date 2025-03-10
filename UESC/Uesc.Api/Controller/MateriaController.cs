@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Uesc.Business.DTOs.InputModel;
 using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.IRepository;
 using Uesc.Business.Services;
 
 namespace Uesc.Api.Controller
@@ -11,22 +12,28 @@ namespace Uesc.Api.Controller
     public class MateriaController : ControllerBase
     {
         private readonly IMateriaService _materiaService;
+        private readonly IMateriaRepository _materiaRepository;
 
-        public MateriaController(IMateriaService materiaService)
+
+
+        public MateriaController(IMateriaService materiaService, IMateriaRepository materiaRepository)
         {
             _materiaService = materiaService;
+            _materiaRepository = materiaRepository;
         }
 
         [HttpGet]
         public ActionResult<List<MateriaViewModel>> Get()
         {
-            return Ok(_materiaService.ListarMaterias());
+            //return Ok(_materiaService.ListarMaterias());
+            return Ok(_materiaRepository.ListarMaterias());
         }
 
         [HttpGet("{id}")]
         public ActionResult<MateriaViewModel> Get(int id)
         {
-            return Ok(_materiaService.BuscarMateriaPorId(id));
+           // return Ok(_materiaService.BuscarMateriaPorId(id));
+            return Ok(_materiaRepository.BuscarMateriaPorId(id));
         }
 
         [HttpPost]

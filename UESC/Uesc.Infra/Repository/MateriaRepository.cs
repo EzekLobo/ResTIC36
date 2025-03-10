@@ -16,19 +16,23 @@ public class MateriaRepository : IMateriaRepository
     }
     public MateriaViewModel AtualizarMateria(int id, UpdateMateriaInputModel Materia)
     {
-        var materia = _context.Materias.FirstOrDefault(x => x.Id == id);
-        if (materia == null)
+        var materiaAtualizada = _context.Materias.FirstOrDefault(x => x.Id == id);
+        if (materiaAtualizada == null)
         {
             throw new Exception("ID não encontrado");
         }
-        materia.Nome = Materia.Nome;
+        materiaAtualizada.Nome = Materia.Nome;
+        materiaAtualizada.CargaHoraria = Materia.CargaHoraria;
 
+        _context.Materias.Update(materiaAtualizada);
+        _context.SaveChanges();
+        
         return new MateriaViewModel
         {
-            Id = materia.Id,
-            Codigo = materia.Codigo,
-            Nome = materia.Nome,
-            CargaHoraria = materia.CargaHoraria
+            Id = materiaAtualizada.Id,
+            Codigo = materiaAtualizada.Codigo,
+            Nome = materiaAtualizada.Nome,
+            CargaHoraria = materiaAtualizada.CargaHoraria
         };
     }
 
