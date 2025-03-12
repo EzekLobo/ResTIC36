@@ -11,6 +11,9 @@ builder.Services.AddScoped<IAlunoService, AlunoService>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
 builder.Services.AddScoped<IMateriaService, MateriaService>();
 builder.Services.AddScoped<IMateriaRepository, MateriaRepository>();
+builder.Services.AddScoped<IMatriculaService, MatriculaService>();
+builder.Services.AddScoped<IMatriculaRepository, MatriculaRepository>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

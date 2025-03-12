@@ -35,6 +35,11 @@ public class UescDbContext : DbContext
                 .HasKey(m => m.Id);
         modelBuilder.Entity<Materia>().Property(m => m.Nome).HasMaxLength(100);
         modelBuilder.Entity<Materia>().Property(m => m.Codigo).IsRequired().HasDefaultValue(0);
+
+        modelBuilder.Entity<Aluno>()
+        .HasMany(a => a.Materias)
+        .WithMany(m => m.Alunos)
+        .UsingEntity(j => j.ToTable("AlunoMateria"));
       
     }  
 }
