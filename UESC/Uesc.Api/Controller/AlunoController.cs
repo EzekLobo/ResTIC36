@@ -23,36 +23,36 @@ public class AlunoController : ControllerBase
     
 
     [HttpGet]
-    public ActionResult<AlunoViewModel> GetAlunos()
+    public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAluno()
     {
         //return Ok(_alunoService.ListarAlunos());
- 
-       return Ok(_alunoRepository.ListarAlunos());
+  
+       return Ok(await _alunoRepository.ListarAlunos());
     }
 
     [HttpGet("{id}")]
-    public ActionResult<AlunoViewModel> GetAluno(int id)
+    public async Task<ActionResult<AlunoViewModel>> GetAluno(int id)
     {
         //return Ok(_alunoService.BuscarAlunoPorId(id));
 
-        return Ok(_alunoRepository.BuscarAlunoPorId(id));
+        return await _alunoRepository.BuscarAlunoPorId(id);
     }
 
     [HttpPut("{id}")]
-    public ActionResult<AlunoViewModel> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
+    public async Task<ActionResult <AlunoViewModel>> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
     {
-        return Ok(_alunoService.AtualizarAluno(id, aluno));
+        return await _alunoService.AtualizarAluno(id, aluno);
     }
 
     [HttpPost]
-    public ActionResult<AlunoViewModel> PostAluno([FromBody] AlunoInputModel aluno)
+    public async Task<ActionResult<AlunoViewModel>> PostAluno([FromBody] AlunoInputModel aluno)
     {
-        return Ok(_alunoService.InserirAluno(aluno));
+        return await _alunoService.InserirAluno(aluno);
     }
 
     [HttpDelete("{id}")]
-    public ActionResult<AlunoViewModel> DeleteAluno(int id)
+    public async Task<ActionResult<AlunoViewModel>> DeleteAluno(int id)
     {
-        return Ok(_alunoService.RemoverAluno(id));
+        return await _alunoService.RemoverAluno(id);
     }
 }

@@ -16,42 +16,42 @@ namespace Uesc.Api.Controller
 
 
 
-        public MateriaController(IMateriaService materiaService, IMateriaRepository materiaRepository)
+        public  MateriaController(IMateriaService materiaService, IMateriaRepository materiaRepository)
         {
             _materiaService = materiaService;
             _materiaRepository = materiaRepository;
         }
 
         [HttpGet]
-        public ActionResult<List<MateriaViewModel>> Get()
+        public async Task<ActionResult<List<MateriaViewModel>>> Get()
         {
-            //return Ok(_materiaService.ListarMaterias());
-            return Ok(_materiaRepository.ListarMaterias());
+            //return await  _materiaService.ListarMaterias();
+            return await _materiaRepository.ListarMaterias();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<MateriaViewModel> Get(int id)
+        public async Task <ActionResult<MateriaViewModel>> Get(int id)
         {
-           // return Ok(_materiaService.BuscarMateriaPorId(id));
-            return Ok(_materiaRepository.BuscarMateriaPorId(id));
+           //return await _materiaService.BuscarMateriaPorId(id);
+           return await _materiaRepository.BuscarMateriaPorId(id);
         }
 
         [HttpPost]
-        public ActionResult<MateriaViewModel> Post([FromBody] MateriaInputModel materia)
+        public async Task <ActionResult<MateriaViewModel>> Post([FromBody] MateriaInputModel materia)
         {
-            return Ok(_materiaService.InserirMateria(materia));
+            return  await _materiaService.InserirMateria(materia);
         }
 
         [HttpPut("{id}")]
-        public ActionResult<MateriaViewModel> Put(int id, [FromBody] UpdateMateriaInputModel materia)
+        public async Task <ActionResult<MateriaViewModel>> Put(int id, [FromBody] UpdateMateriaInputModel materia)
         {
-            return _materiaService.AtualizarMateria(id, materia);
+            return await _materiaService.AtualizarMateria(id, materia);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task <ActionResult<MateriaViewModel>> Delete(int id)
         {
-            return Ok(_materiaService.RemoverMateria(id));
+            return await _materiaService.RemoverMateria(id);
         }
         
 

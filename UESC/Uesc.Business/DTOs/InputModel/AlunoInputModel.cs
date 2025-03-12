@@ -8,5 +8,5 @@ public class AlunoInputModel
     public int Matricula { get; set; }
 
     [StringLength(50, ErrorMessage = "O nome deve ter no máximo 50 caracteres.")]
-    public string Nome{ get; set; }
+    public string Nome{ get; set; } = string.Empty;
 }

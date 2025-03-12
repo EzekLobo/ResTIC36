@@ -6,12 +6,11 @@ namespace Uesc.Business.IRepository;
 
 public interface IMateriaRepository
 {
-    List<MateriaViewModel> ListarMaterias();
-    MateriaViewModel BuscarMateriaPorId(int id);
-    MateriaViewModel InserirMateria(MateriaInputModel Materia);
-    MateriaViewModel AtualizarMateria(int id,UpdateMateriaInputModel Materia);
-    MateriaViewModel RemoverMateria(int id);
-    void VerificarMateriaPorCodigo(int matricula);
-
+    Task <List<MateriaViewModel>> ListarMaterias();
+    Task <MateriaViewModel> BuscarMateriaPorId(int id);
+    Task <MateriaViewModel> InserirMateria(MateriaInputModel Materia);
+    Task <MateriaViewModel> AtualizarMateria(int id,UpdateMateriaInputModel Materia);
+    Task <MateriaViewModel> RemoverMateria(int id);
+    Task VerificarMateriaPorCodigo(int matricula);
 
 }

@@ -24,12 +24,17 @@ public class UescDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Aluno>()
-                .HasKey(a => a.Id);
-                
+                .Property(a => a.Id);
+        modelBuilder.Entity<Aluno>().Property(a => a.Nome).HasMaxLength(100);
+        modelBuilder.Entity<Aluno>().Property(m => m.Matricula).IsRequired().HasDefaultValue(0);
+        
         modelBuilder.Entity<Log>()
                 .HasKey(l => l.Id);
 
         modelBuilder.Entity<Materia>()
                 .HasKey(m => m.Id);
-    }
+        modelBuilder.Entity<Materia>().Property(m => m.Nome).HasMaxLength(100);
+        modelBuilder.Entity<Materia>().Property(m => m.Codigo).IsRequired().HasDefaultValue(0);
+      
+    }  
 }

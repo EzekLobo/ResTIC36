@@ -14,11 +14,11 @@ public class AlunoService : IAlunoService
         _alunoRepository = alunoRepository;
     }
 
-    public AlunoViewModel AtualizarAluno(int id, UpdateAlunoInputModel aluno)
+    public async Task<AlunoViewModel> AtualizarAluno(int id, UpdateAlunoInputModel aluno)
     {
        try
         {
-            return _alunoRepository.AtualizarAluno(id, aluno);
+            return await _alunoRepository.AtualizarAluno(id, aluno);
         }
         catch (Exception ex)
         {
@@ -26,11 +26,11 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public AlunoViewModel BuscarAlunoPorId(int id)
+    public async Task<AlunoViewModel> BuscarAlunoPorId(int id)
     {
         try
         {
-            var aluno = _alunoRepository.BuscarAlunoPorId(id); 
+            var aluno = await _alunoRepository.BuscarAlunoPorId(id); 
             return aluno;
         }
         catch (Exception ex)
@@ -39,12 +39,12 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public AlunoViewModel InserirAluno(AlunoInputModel aluno)
+    public async Task<AlunoViewModel> InserirAluno(AlunoInputModel aluno)
     {
         try
         {
-            _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
-            return _alunoRepository.InserirAluno(aluno); 
+           await  _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
+            return await _alunoRepository.InserirAluno(aluno); 
         }
         catch (Exception ex)
         {
@@ -53,11 +53,11 @@ public class AlunoService : IAlunoService
     }
 
 
-    public List<AlunoViewModel> ListarAlunos()
+    public async Task<List<AlunoViewModel>> ListarAlunos()
     {
         try
         {
-            return _alunoRepository.ListarAlunos();
+            return await _alunoRepository.ListarAlunos();
         }
         catch (Exception ex)
         {
@@ -65,11 +65,11 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public AlunoViewModel RemoverAluno(int id)
+    public async Task<AlunoViewModel> RemoverAluno(int id)
     {
         try
         {
-            return _alunoRepository.RemoverAluno(id);
+            return await _alunoRepository.RemoverAluno(id);
         }
         catch (Exception ex)
         {

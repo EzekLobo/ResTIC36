@@ -5,10 +5,10 @@ namespace Uesc.Business.Services;
 
 public interface IMateriaService
 {
-    MateriaViewModel InserirMateria(MateriaInputModel materia);
-    MateriaViewModel AtualizarMateria(int id, UpdateMateriaInputModel materia);
-    MateriaViewModel BuscarMateriaPorId(int id);
-    MateriaViewModel RemoverMateria(int id);
-    List<MateriaViewModel> ListarMaterias();
+    Task <MateriaViewModel> InserirMateria(MateriaInputModel materia);
+    Task <MateriaViewModel> AtualizarMateria(int id, UpdateMateriaInputModel materia);
+    Task <MateriaViewModel> BuscarMateriaPorId(int id);
+    Task <MateriaViewModel> RemoverMateria(int id);
+    Task <List<MateriaViewModel>> ListarMaterias();
 
 }

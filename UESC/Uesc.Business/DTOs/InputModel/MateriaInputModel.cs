@@ -9,6 +9,6 @@ public class MateriaInputModel
     [Range(1, int.MaxValue, ErrorMessage = "A código deve ser um número positivo e menor ou igual a 2.147.483.647.")]
     public int Codigo { get; set; }
     [StringLength(50, ErrorMessage = "O nome deve ter no máximo 50 caracteres.")]
-    public string Nome { get; set; }
+    public string Nome { get; set; } = string.Empty;
     public int CargaHoraria { get; set; }
 }

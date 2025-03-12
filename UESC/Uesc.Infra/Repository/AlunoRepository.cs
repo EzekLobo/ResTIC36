@@ -1,10 +1,9 @@
-
 using Uesc.Business.DTOs.InputModel;
 using Uesc.Business.DTOs.ViewModel;
 using Uesc.Business.IRepository;
 using Uesc.Infra.DATA;
 using Uesc.Business.Entities;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Uesc.Infra.Repository;
 
@@ -16,9 +15,10 @@ public class AlunoRepository : IAlunoRepository
     {
         _context = context;
     }
-    public AlunoViewModel AtualizarAluno(int id, UpdateAlunoInputModel aluno)
+
+    public async Task<AlunoViewModel> AtualizarAluno(int id, UpdateAlunoInputModel aluno)
     {
-        var alunoAtualizado = _context.Alunos.FirstOrDefault(a => a.Id == id);
+        var alunoAtualizado = await _context.Alunos.FindAsync(id);
 
         if (alunoAtualizado == null)
             throw new KeyNotFoundException("Aluno com o ID fornecido não encontrado.");
@@ -26,94 +26,83 @@ public class AlunoRepository : IAlunoRepository
         alunoAtualizado.Nome = aluno.Nome;
         
         _context.Alunos.Update(alunoAtualizado);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
-        var alunoViewModel = new AlunoViewModel
+        return new AlunoViewModel
         {
             Id = alunoAtualizado.Id,
             Matricula = alunoAtualizado.Matricula,
-            Nome = alunoAtualizado.Nome,
+            Nome = alunoAtualizado.Nome
         };
-
-        return alunoViewModel;
     }
 
-
-    public AlunoViewModel BuscarAlunoPorId(int id)
+    public async Task<AlunoViewModel> BuscarAlunoPorId(int id)
     {
-       var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+        var aluno = await _context.Alunos.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
-    if (aluno == null)
-        throw new KeyNotFoundException("ID não encontrado"); 
+        if (aluno == null)
+            throw new KeyNotFoundException("Aluno com o ID fornecido não encontrado.");
 
-    var alunoEncontrado = new AlunoViewModel
-    {
-        Id = aluno.Id,
-        Matricula = aluno.Matricula,
-        Nome = aluno.Nome,
-    };
-
-    return alunoEncontrado; 
-        
+        return  new AlunoViewModel
+        {
+            Id = aluno.Id,
+            Matricula = aluno.Matricula,
+            Nome = aluno.Nome
+        };
     }
 
-    public AlunoViewModel InserirAluno(AlunoInputModel aluno)
+    public async Task<AlunoViewModel> InserirAluno(AlunoInputModel aluno)
     {
         var novoAluno = new Aluno
         {
             Matricula = aluno.Matricula,
-            Nome = aluno.Nome,
+            Nome = aluno.Nome
         };
 
-        _context.Alunos.Add(novoAluno);
-        _context.SaveChanges();
-
+        await _context.Alunos.AddAsync(novoAluno);
+        await _context.SaveChangesAsync();
 
         return new AlunoViewModel
         {
             Id = novoAluno.Id,
             Matricula = novoAluno.Matricula,
-            Nome = novoAluno.Nome,
+            Nome = novoAluno.Nome
         };
     }
 
-    public List<AlunoViewModel> ListarAlunos()
+    public async Task<List<AlunoViewModel>> ListarAlunos()
     {
-        var alunos = _context.Alunos.ToList();
-
-    return alunos 
-        .Select(a => new AlunoViewModel
-        {   Id = a.Id,
+        var alunos = await _context.Alunos.AsNoTracking().ToListAsync();
+        return alunos.Select(a => new AlunoViewModel
+        {
+            Id = a.Id,
             Matricula = a.Matricula,
-            Nome = a.Nome,
-        })
-        .ToList();
-
+            Nome = a.Nome
+        }).ToList();
     }
 
-    public AlunoViewModel RemoverAluno(int id)
+    public async Task<AlunoViewModel> RemoverAluno(int id)
     {
-        var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+        var aluno = await _context.Alunos.FindAsync(id);
 
-    if (aluno == null)
-        throw new KeyNotFoundException("ID não encontrada");
-    
-     var alunoRemovido = new AlunoViewModel
-    {
-        Id = aluno.Id,
-        Matricula = aluno.Matricula,
-        Nome = aluno.Nome,
-    };
-    _context.Alunos.Remove(aluno);
-    _context.SaveChanges();
+        if (aluno == null)
+             throw new KeyNotFoundException("Aluno com o ID fornecido não encontrado.");
 
-    return alunoRemovido;
+        _context.Alunos.Remove(aluno);
+        await _context.SaveChangesAsync();
+
+        return new AlunoViewModel
+        {
+            Id = aluno.Id,
+            Matricula = aluno.Matricula,
+            Nome = aluno.Nome
+        };
     }
 
-    public void VerificarAlunoPorMatricula(int matricula)
-    {
-        if (_context.Alunos.Any(a => a.Matricula == matricula))
-             throw new InvalidOperationException("Já existe um aluno com essa matrícula."); 
+    public async Task VerificarAlunoPorMatricula(int matricula)
+    { 
+        var aluno = await _context.Alunos.AnyAsync(a => a.Matricula == matricula);
+        if (aluno)
+            throw new Exception("Já existe um aluno com a matrícula fornecida.");
     }
-
 }
