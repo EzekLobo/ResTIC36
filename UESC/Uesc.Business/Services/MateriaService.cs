@@ -1,6 +1,5 @@
 using System;
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 using Uesc.Business.Services;
 using Uesc.Business.IRepository;
 
@@ -14,11 +13,11 @@ public class MateriaService : IMateriaService
     {
         _materiaRepository = materiaRepository;
     }
-    public async Task<MateriaViewModel> AtualizarMateria(int id, UpdateMateriaInputModel materia)
+    public async Task<Materia> Update(int id, Materia materia)
     {
         try
         {   
-            return await _materiaRepository.AtualizarMateria(id, materia);
+            return await _materiaRepository.Update(id, materia);
         }
         catch (Exception ex)
         {
@@ -26,11 +25,11 @@ public class MateriaService : IMateriaService
         }
     }
 
-    public async Task<MateriaViewModel> BuscarMateriaPorId(int id)
+    public async Task<Materia> GetById(int id)
     {
        try
         {
-            return await _materiaRepository.BuscarMateriaPorId(id);
+            return await _materiaRepository.GetById(id);
         }
         catch (Exception ex)
         {
@@ -38,12 +37,12 @@ public class MateriaService : IMateriaService
         }
     }
 
-    public async Task<MateriaViewModel> InserirMateria(MateriaInputModel materia)
+    public async Task<Materia> Insert(Materia materia)
     {
         try
         {
-           await  _materiaRepository.VerificarMateriaPorCodigo(materia.Codigo);
-            return await _materiaRepository.InserirMateria(materia);
+           await  _materiaRepository.CheckByCode(materia.Codigo);
+            return await _materiaRepository.Insert(materia);
         }
         catch (Exception ex)
         {
@@ -51,11 +50,11 @@ public class MateriaService : IMateriaService
         }
     }
 
-    public async Task<List<MateriaViewModel>> ListarMaterias()
+    public async Task<List<Materia>> GetAll()
     {
         try
         {
-            return await _materiaRepository.ListarMaterias();
+            return await _materiaRepository.GetAll();
         }
         catch (Exception ex)
         {
@@ -63,11 +62,11 @@ public class MateriaService : IMateriaService
         }
     }
 
-    public async Task<MateriaViewModel> RemoverMateria(int id)
+    public async Task<Materia> Delete(int id)
     {
         try
         {
-            return await _materiaRepository.RemoverMateria(id);
+            return await _materiaRepository.Delete(id);
         }
         catch (Exception ex)
         {

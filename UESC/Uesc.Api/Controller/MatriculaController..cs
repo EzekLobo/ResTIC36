@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Uesc.Business.IRepository;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Api.DTOs.ViewModel;
+using Uesc.Business.Entities;
 
 namespace Uesc.Api.Controller;
 
@@ -16,10 +17,10 @@ public class MatriculaController : ControllerBase
     }
 
    
-    [HttpPost("matricular")]
-    public async Task<IActionResult> MatricularAlunoEmMateria(int alunoId, int materiaId)
+    [HttpPost]
+    public async Task<IActionResult> Insert(int alunoId, int materiaId)
     {
-        var sucesso = await _matriculaRepository.MatricularAlunoEmMateria(alunoId, materiaId);
+        var sucesso = await _matriculaRepository.Insert(alunoId, materiaId);
         
         if (!sucesso)
             return BadRequest("Aluno ou matéria não encontrados, ou aluno já matriculado.");
@@ -29,11 +30,11 @@ public class MatriculaController : ControllerBase
 
     
     [HttpGet("materias/{alunoId}")]
-    public async Task<ActionResult<List<MatriculaViewModel>>> BuscarMateriasPorAluno(int alunoId)
+    public async Task<ActionResult<Materia>> GetById(int alunoId)
     {
-        var materias = await _matriculaRepository.BuscarMateriasPorAluno(alunoId);
+        var matricula = await _matriculaRepository.GetById(alunoId);
         
 
-        return Ok(materias);
+        return Ok(matricula);
     }
 }

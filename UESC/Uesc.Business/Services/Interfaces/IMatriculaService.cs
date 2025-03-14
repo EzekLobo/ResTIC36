@@ -1,11 +1,11 @@
 using System;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 
 namespace Uesc.Business.Services;
 
 public interface IMatriculaService
 {
-    Task<bool> MatricularAluno(int alunoId, int materiaId);
-    Task<MatriculaViewModel> ObterMateriasDoAluno(int alunoId);
+    Task<bool> Insert(int alunoId, int materiaId);
+    Task<List<Materia>> GetById(int alunoId);
 
 }

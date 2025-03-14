@@ -1,5 +1,5 @@
 using Uesc.Business.IRepository;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 
 namespace Uesc.Business.Services;
 
@@ -12,13 +12,13 @@ public class MatriculaService : IMatriculaService
         _matriculaRepository = matriculaRepository;
     }
 
-    public async Task<bool> MatricularAluno(int alunoId, int materiaId)
+    public async Task<bool> Insert(int alunoId, int materiaId)
     {
-        return await _matriculaRepository.MatricularAlunoEmMateria(alunoId, materiaId);
+        return await _matriculaRepository.Insert(alunoId, materiaId);
     }
 
-    public async Task<MatriculaViewModel> ObterMateriasDoAluno(int alunoId)
+    public async Task<List<Materia>> GetById(int alunoId)
     {
-        return await _matriculaRepository.BuscarMateriasPorAluno(alunoId);
+        return await _matriculaRepository.GetById(alunoId);
     }
 }

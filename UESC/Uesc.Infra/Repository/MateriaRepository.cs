@@ -1,6 +1,4 @@
 using Uesc.Business.Entities;
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
 using Uesc.Business.IRepository;
 using Uesc.Infra.DATA;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +14,7 @@ public class MateriaRepository : IMateriaRepository
         _context = context;
     }
 
-    public async Task<MateriaViewModel> AtualizarMateria(int id, UpdateMateriaInputModel materia)
+    public async Task<Materia> Update(int id, Materia materia)
     {
         var materiaAtualizada = await _context.Materias.FindAsync(id);
         if (materiaAtualizada == null)
@@ -28,31 +26,19 @@ public class MateriaRepository : IMateriaRepository
         _context.Materias.Update(materiaAtualizada);
         await _context.SaveChangesAsync();
 
-        return new MateriaViewModel
-        {
-            Id = materiaAtualizada.Id,
-            Codigo = materiaAtualizada.Codigo,
-            Nome = materiaAtualizada.Nome,
-            CargaHoraria = materiaAtualizada.CargaHoraria
-        };
+        return materiaAtualizada;
     }
 
-    public async Task<MateriaViewModel> BuscarMateriaPorId(int id)
+    public async Task<Materia> GetById(int id)
     {
         var materia = await _context.Materias.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         if (materia == null)
             throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
 
-        return new MateriaViewModel
-        {
-            Id = materia.Id,
-            Codigo = materia.Codigo,
-            Nome = materia.Nome,
-            CargaHoraria = materia.CargaHoraria
-        };
+        return materia;
     }
 
-    public async Task<MateriaViewModel> InserirMateria(MateriaInputModel materia)
+    public async Task<Materia> Insert(Materia materia)
     {
         var novaMateria = new Materia
         {
@@ -64,29 +50,17 @@ public class MateriaRepository : IMateriaRepository
         await _context.Materias.AddAsync(novaMateria);
         await _context.SaveChangesAsync();
 
-        return new MateriaViewModel
-        {
-            Id = novaMateria.Id,
-            Codigo = novaMateria.Codigo,
-            Nome = novaMateria.Nome,
-            CargaHoraria = novaMateria.CargaHoraria
-        };
+        return novaMateria;
     }
 
-    public async Task<List<MateriaViewModel>> ListarMaterias()
+    public async Task<List<Materia>> GetAll()
     {
         var materias = await _context.Materias.AsNoTracking().ToListAsync();
 
-        return materias.Select(m => new MateriaViewModel
-        {
-            Id = m.Id,
-            Codigo = m.Codigo,
-            Nome = m.Nome,
-            CargaHoraria = m.CargaHoraria
-        }).ToList();
+        return materias;
     }
 
-    public async Task<MateriaViewModel> RemoverMateria(int id)
+    public async Task<Materia> Delete(int id)
     {
         var materia = await _context.Materias.FindAsync(id);
         if (materia == null)
@@ -95,16 +69,10 @@ public class MateriaRepository : IMateriaRepository
         _context.Materias.Remove(materia);
         await _context.SaveChangesAsync();
 
-        return new MateriaViewModel
-        {
-            Id = materia.Id,
-            Codigo = materia.Codigo,
-            Nome = materia.Nome,
-            CargaHoraria = materia.CargaHoraria
-        };
+        return materia;
     }
 
-    public async Task VerificarMateriaPorCodigo(int codigo)
+    public async Task CheckByCode(int codigo)
     {
         var materia = await _context.Materias.AnyAsync(x => x.Codigo == codigo);
         if (materia)

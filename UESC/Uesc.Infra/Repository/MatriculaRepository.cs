@@ -1,10 +1,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Uesc.Infra.DATA;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 using Uesc.Business.IRepository;
-namespace Uesc.Infra.Repository;
 
+namespace Uesc.Infra.Repository;
 
 public class MatriculaRepository : IMatriculaRepository
 {
@@ -15,7 +15,7 @@ public class MatriculaRepository : IMatriculaRepository
         _context = context;
     }
 
-    public async Task<bool> MatricularAlunoEmMateria(int alunoId, int materiaId)
+    public async Task<bool> Insert(int alunoId, int materiaId)
     {
         var aluno = await _context.Alunos
             .Include(a => a.Materias) 
@@ -35,35 +35,17 @@ public class MatriculaRepository : IMatriculaRepository
         return true;
     }
 
-    public async Task<MatriculaViewModel> BuscarMateriasPorAluno(int alunoId)
-    {
-        var aluno = await _context.Alunos
-            .Include(a => a.Materias) 
-            .FirstOrDefaultAsync(a => a.Id == alunoId);
+    public async Task<List<Materia>> GetById(int alunoId)
+{
+    var materias = await _context.Materias
+        .Where(m => m.Alunos.Any(a => a.Id == alunoId))
+        .ToListAsync();
 
-        if (aluno == null)
-           throw new KeyNotFoundException("Aluno não encontrado."); 
-            
-        
-        var materias = aluno.Materias.Select(m => new MateriaViewModel
-        {
-            Id = m.Id,
-            Codigo = m.Codigo,
-            Nome = m.Nome,
-            CargaHoraria = m.CargaHoraria
-        }).ToList();
+    if (!materias.Any())
+        throw new KeyNotFoundException("O aluno não está matriculado em nenhuma matéria.");
 
-        return new MatriculaViewModel
-        {
-            AlunoId = aluno.Id,
-            AlunoMatricula = aluno.Matricula,
-            AlunoNome = aluno.Nome,
-            Materias = materias
-        };
-
-    }
-
-
+    return materias;
+}
 
 
 }

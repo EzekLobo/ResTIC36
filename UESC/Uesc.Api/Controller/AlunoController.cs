@@ -1,11 +1,10 @@
 namespace Uesc.Api.Controller;
-using Uesc.Infra.DATA;
 using Microsoft.AspNetCore.Mvc;
 using Uesc.Business.Services;
-using Microsoft.EntityFrameworkCore;
-using Uesc.Business.DTOs.ViewModel;
-using Uesc.Business.DTOs.InputModel;
+using Uesc.Api.DTOs.ViewModel;
+using Uesc.Api.DTOs.InputModel;
 using Uesc.Business.IRepository;
+using Uesc.Business.Entities;
 
 
 [ApiController]
@@ -23,36 +22,51 @@ public class AlunoController : ControllerBase
     
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAluno()
+    public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAll()
     {
         //return Ok(_alunoService.ListarAlunos());
   
-       return Ok(await _alunoRepository.ListarAlunos());
+       return Ok(await _alunoRepository.GetAll());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<AlunoViewModel>> GetAluno(int id)
+    public async Task<ActionResult<AlunoViewModel>> GetById(int id)
     {
         //return Ok(_alunoService.BuscarAlunoPorId(id));
 
-        return await _alunoRepository.BuscarAlunoPorId(id);
+        var aluno = await _alunoRepository.GetById(id);
+
+        return Ok(aluno);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult <AlunoViewModel>> PutAluno(int id, [FromBody]  UpdateAlunoInputModel aluno)
+    public async Task<ActionResult <AlunoViewModel>> Update(int id, [FromBody]  UpdateAlunoInputModel aluno)
     {
-        return await _alunoService.AtualizarAluno(id, aluno);
+        var alunoAtualizado = await _alunoService.Update(id, new Aluno
+        {
+            Nome = aluno.Nome,
+        });
+
+        return Ok(alunoAtualizado);
     }
 
     [HttpPost]
-    public async Task<ActionResult<AlunoViewModel>> PostAluno([FromBody] AlunoInputModel aluno)
+    public async Task<ActionResult<AlunoViewModel>> Insert([FromBody] AlunoInputModel aluno)
     {
-        return await _alunoService.InserirAluno(aluno);
+       
+        var alunoInserido= await _alunoService.Insert( new Aluno
+        {
+            Nome = aluno.Nome,
+            Matricula = aluno.Matricula
+        });
+
+        return Ok(alunoInserido);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<AlunoViewModel>> DeleteAluno(int id)
+    public async Task<ActionResult<AlunoViewModel>> Delete(int id)
     {
-        return await _alunoService.RemoverAluno(id);
+        var alunoDeletado = await _alunoService.Delete(id);
+        return Ok(alunoDeletado);
     }
 }

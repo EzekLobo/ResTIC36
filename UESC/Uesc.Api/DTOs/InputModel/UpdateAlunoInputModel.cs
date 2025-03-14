@@ -1,12 +1,9 @@
-using System;
 using System.ComponentModel.DataAnnotations;
+namespace Uesc.Api.DTOs.InputModel;
 
-namespace Uesc.Business.DTOs.InputModel;
-
-public class UpdateMateriaInputModel
+public class UpdateAlunoInputModel
 {
     [StringLength(50, ErrorMessage = "O nome deve ter no máximo 50 caracteres.")]
-    public string Nome { get; set; } = string.Empty;
+    public string Nome{ get; set; }= string.Empty;
     public int CargaHoraria { get; set; }
-
 }

@@ -1,16 +1,10 @@
-
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
+using Uesc.Business.Services;
 
 namespace Uesc.Business.IRepository;
 
-public interface IMateriaRepository
+public interface IMateriaRepository : IBaseInterface<Materia>
 {
-    Task <List<MateriaViewModel>> ListarMaterias();
-    Task <MateriaViewModel> BuscarMateriaPorId(int id);
-    Task <MateriaViewModel> InserirMateria(MateriaInputModel Materia);
-    Task <MateriaViewModel> AtualizarMateria(int id,UpdateMateriaInputModel Materia);
-    Task <MateriaViewModel> RemoverMateria(int id);
-    Task VerificarMateriaPorCodigo(int matricula);
+    Task CheckByCode(int matricula);
 
 }

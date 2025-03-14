@@ -1,10 +1,10 @@
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 
 namespace Uesc.Business.IRepository;
 
-public interface IMatriculaRepository
+public interface IMatriculaRepository 
 {
-    Task<bool> MatricularAlunoEmMateria(int alunoId, int materiaId);
-    Task<MatriculaViewModel> BuscarMateriasPorAluno(int alunoId);
+    Task<bool> Insert(int alunoId, int materiaId);
+    Task<List<Materia>> GetById(int alunoId);
 
 }

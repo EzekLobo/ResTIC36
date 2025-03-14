@@ -1,5 +1,4 @@
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 using Uesc.Business.IRepository;
 using System;
 
@@ -14,11 +13,11 @@ public class AlunoService : IAlunoService
         _alunoRepository = alunoRepository;
     }
 
-    public async Task<AlunoViewModel> AtualizarAluno(int id, UpdateAlunoInputModel aluno)
+    public async Task<Aluno> Update(int id, Aluno aluno)
     {
        try
         {
-            return await _alunoRepository.AtualizarAluno(id, aluno);
+            return await _alunoRepository.Update(id, aluno);
         }
         catch (Exception ex)
         {
@@ -26,11 +25,12 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public async Task<AlunoViewModel> BuscarAlunoPorId(int id)
+    public async Task<Aluno> GetById(int id)
     {
         try
         {
-            var aluno = await _alunoRepository.BuscarAlunoPorId(id); 
+            var aluno = await _alunoRepository.GetById(id); 
+            
             return aluno;
         }
         catch (Exception ex)
@@ -39,12 +39,12 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public async Task<AlunoViewModel> InserirAluno(AlunoInputModel aluno)
+    public async Task<Aluno> Insert(Aluno aluno)
     {
         try
         {
-           await  _alunoRepository.VerificarAlunoPorMatricula(aluno.Matricula);
-            return await _alunoRepository.InserirAluno(aluno); 
+           await  _alunoRepository.CheckByRegistration(aluno.Matricula);
+            return await _alunoRepository.Insert(aluno); 
         }
         catch (Exception ex)
         {
@@ -53,11 +53,11 @@ public class AlunoService : IAlunoService
     }
 
 
-    public async Task<List<AlunoViewModel>> ListarAlunos()
+    public async Task<List<Aluno>> GetAll()
     {
         try
         {
-            return await _alunoRepository.ListarAlunos();
+            return await _alunoRepository.GetAll();
         }
         catch (Exception ex)
         {
@@ -65,11 +65,11 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public async Task<AlunoViewModel> RemoverAluno(int id)
+    public async Task<Aluno> Delete(int id)
     {
         try
         {
-            return await _alunoRepository.RemoverAluno(id);
+            return await _alunoRepository.Delete(id);
         }
         catch (Exception ex)
         {

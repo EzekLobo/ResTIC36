@@ -1,14 +1,8 @@
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
 
 namespace Uesc.Business.Services;
 
-public interface IMateriaService
+public interface IMateriaService : IBaseInterface<Materia>
 {
-    Task <MateriaViewModel> InserirMateria(MateriaInputModel materia);
-    Task <MateriaViewModel> AtualizarMateria(int id, UpdateMateriaInputModel materia);
-    Task <MateriaViewModel> BuscarMateriaPorId(int id);
-    Task <MateriaViewModel> RemoverMateria(int id);
-    Task <List<MateriaViewModel>> ListarMaterias();
 
 }

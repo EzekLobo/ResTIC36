@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Uesc.Business.DTOs.InputModel;
+namespace Uesc.Api.DTOs.InputModel;
 
 public class MateriaInputModel
 {

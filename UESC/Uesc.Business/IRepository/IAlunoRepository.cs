@@ -1,14 +1,9 @@
-using Uesc.Business.DTOs.InputModel;
-using Uesc.Business.DTOs.ViewModel;
+using Uesc.Business.Entities;
+using Uesc.Business.Services;
 
 namespace Uesc.Business.IRepository;
 
-public interface IAlunoRepository
+public interface IAlunoRepository : IBaseInterface<Aluno>
 {
-    Task<List<AlunoViewModel>> ListarAlunos();
-    Task <AlunoViewModel> BuscarAlunoPorId(int id);
-    Task <AlunoViewModel> InserirAluno(AlunoInputModel aluno);
-    Task <AlunoViewModel> AtualizarAluno(int id,UpdateAlunoInputModel aluno);
-    Task <AlunoViewModel> RemoverAluno(int id);
-    Task VerificarAlunoPorMatricula(int matricula);
+    Task CheckByRegistration(int matricula);
 }
