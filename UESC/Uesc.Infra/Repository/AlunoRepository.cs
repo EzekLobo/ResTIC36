@@ -31,7 +31,9 @@ public class AlunoRepository : IAlunoRepository
 
     public async Task<Aluno?> GetById(int id)
     {
-        return await _context.Alunos.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+        var aluno = await _context.Alunos.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+
+        return aluno;
     }
 
     public async Task<Aluno> Insert(Aluno aluno)

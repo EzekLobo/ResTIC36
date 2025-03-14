@@ -70,6 +70,7 @@ namespace Uesc.Api.Controller
             var materiaViewModel = new MateriaViewModel
             {
                 Id = materiaInserida.Id,
+                Codigo = materiaInserida.Codigo,
                 Nome = materiaInserida.Nome,
                 CargaHoraria = materiaInserida.CargaHoraria
             };
@@ -90,6 +91,7 @@ namespace Uesc.Api.Controller
             var materiaViewModel = new MateriaViewModel
             {
                 Id = alunoAtualizado.Id,
+                Codigo = alunoAtualizado.Codigo,
                 Nome = alunoAtualizado.Nome,
                 CargaHoraria = alunoAtualizado.CargaHoraria
             };
@@ -105,6 +107,7 @@ namespace Uesc.Api.Controller
             var materiaViewModel = new MateriaViewModel
             {
                 Id = materia.Id,
+                Codigo = materia.Codigo,
                 Nome = materia.Nome,
                 CargaHoraria = materia.CargaHoraria
             };

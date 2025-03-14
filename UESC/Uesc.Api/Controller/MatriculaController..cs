@@ -37,6 +37,7 @@ public class MatriculaController : ControllerBase
         var materiaViewModel = matricula.Select(m => new MateriaViewModel
         {
             Id = m.Id,
+            Codigo = m.Codigo,
             Nome = m.Nome,
             CargaHoraria = m.CargaHoraria
         });
