@@ -13,7 +13,7 @@ public class MateriaService : IMateriaService
         _materiaRepository = materiaRepository;
     }
 
-    public async Task<Materia?> Update(int id, Materia materia)
+    public async Task<Materia> Update(int id, Materia materia)
     {
         var materiaExistente = await _materiaRepository.GetById(id);
         if (materiaExistente == null)
@@ -25,7 +25,7 @@ public class MateriaService : IMateriaService
         return await _materiaRepository.Update(id, materiaExistente);
     }
 
-    public async Task<Materia?> GetById(int id)
+    public async Task<Materia> GetById(int id)
     {
         var materia = await _materiaRepository.GetById(id);
         if (materia == null)
@@ -52,7 +52,7 @@ public class MateriaService : IMateriaService
         return materias;
     }
 
-    public async Task<Materia?> Delete(int id)
+    public async Task<Materia> Delete(int id)
     {
         var materia = await _materiaRepository.GetById(id);
         if (materia == null)

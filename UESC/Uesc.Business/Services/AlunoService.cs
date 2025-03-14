@@ -13,7 +13,7 @@ public class AlunoService : IAlunoService
         _alunoRepository = alunoRepository;
     }
 
-    public async Task<Aluno?> Update(int id, Aluno aluno)
+    public async Task<Aluno> Update(int id, Aluno aluno)
     {
         var alunoExistente = await _alunoRepository.GetById(id);
         if (alunoExistente == null)
@@ -28,7 +28,7 @@ public class AlunoService : IAlunoService
         return alunoAtualizado;
     }
 
-    public async Task<Aluno?> GetById(int id)
+    public async Task<Aluno> GetById(int id)
     {
         var aluno = await _alunoRepository.GetById(id);
         if (aluno == null)
@@ -55,7 +55,7 @@ public class AlunoService : IAlunoService
         return alunos;
     }
 
-    public async Task<Aluno?> Delete(int id)
+    public async Task<Aluno> Delete(int id)
     {
         var aluno = await _alunoRepository.GetById(id);
         if (aluno == null)
