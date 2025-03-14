@@ -1,6 +1,5 @@
 using System;
 using Uesc.Business.Entities;
-using Uesc.Business.Services;
 using Uesc.Business.IRepository;
 
 namespace Uesc.Business.Services;
@@ -13,64 +12,52 @@ public class MateriaService : IMateriaService
     {
         _materiaRepository = materiaRepository;
     }
-    public async Task<Materia> Update(int id, Materia materia)
+
+    public async Task<Materia?> Update(int id, Materia materia)
     {
-        try
-        {   
-            return await _materiaRepository.Update(id, materia);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Erro ao atualizar materia: {ex.Message}");
-        }
+        var materiaExistente = await _materiaRepository.GetById(id);
+        if (materiaExistente == null)
+            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
+
+        materiaExistente.Nome = materia.Nome;
+        materiaExistente.CargaHoraria = materia.CargaHoraria;
+
+        return await _materiaRepository.Update(id, materiaExistente);
     }
 
-    public async Task<Materia> GetById(int id)
+    public async Task<Materia?> GetById(int id)
     {
-       try
-        {
-            return await _materiaRepository.GetById(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Erro ao buscar materia: {ex.Message}");
-        }
+        var materia = await _materiaRepository.GetById(id);
+        if (materia == null)
+            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
+
+        return materia;
     }
 
     public async Task<Materia> Insert(Materia materia)
     {
-        try
-        {
-           await  _materiaRepository.CheckByCode(materia.Codigo);
-            return await _materiaRepository.Insert(materia);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Erro ao inserir materia: {ex.Message}");
-        }
+        bool codigoExistente = await _materiaRepository.CheckByCode(materia.Codigo);
+        if (codigoExistente)
+            throw new ArgumentException("Já existe uma matéria com o código fornecido.");
+
+        return await _materiaRepository.Insert(materia);
     }
 
     public async Task<List<Materia>> GetAll()
     {
-        try
-        {
-            return await _materiaRepository.GetAll();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Erro ao listar materias: {ex.Message}");
-        }
+        var materias = await _materiaRepository.GetAll();
+        if (!materias.Any())
+            throw new InvalidOperationException("Nenhuma matéria encontrada.");
+
+        return materias;
     }
 
-    public async Task<Materia> Delete(int id)
+    public async Task<Materia?> Delete(int id)
     {
-        try
-        {
-            return await _materiaRepository.Delete(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Erro ao remover materia: {ex.Message}");
-        }
+        var materia = await _materiaRepository.GetById(id);
+        if (materia == null)
+            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
+
+        return await _materiaRepository.Delete(id);
     }
 }

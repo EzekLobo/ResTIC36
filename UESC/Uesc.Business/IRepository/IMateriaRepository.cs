@@ -5,6 +5,6 @@ namespace Uesc.Business.IRepository;
 
 public interface IMateriaRepository : IBaseInterface<Materia>
 {
-    Task CheckByCode(int matricula);
+    Task<bool> CheckByCode(int matricula);
 
 }

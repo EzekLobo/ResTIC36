@@ -1,7 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Uesc.Infra.DATA;
 using Uesc.Business.Entities;
 using Uesc.Business.IRepository;
-using Uesc.Infra.DATA;
-using Microsoft.EntityFrameworkCore;
 
 namespace Uesc.Infra.Repository;
 
@@ -14,11 +14,11 @@ public class MateriaRepository : IMateriaRepository
         _context = context;
     }
 
-    public async Task<Materia> Update(int id, Materia materia)
+    public async Task<Materia?> Update(int id, Materia materia)
     {
         var materiaAtualizada = await _context.Materias.FindAsync(id);
         if (materiaAtualizada == null)
-            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
+            return null;
 
         materiaAtualizada.Nome = materia.Nome;
         materiaAtualizada.CargaHoraria = materia.CargaHoraria;
@@ -29,42 +29,29 @@ public class MateriaRepository : IMateriaRepository
         return materiaAtualizada;
     }
 
-    public async Task<Materia> GetById(int id)
+    public async Task<Materia?> GetById(int id)
     {
-        var materia = await _context.Materias.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        if (materia == null)
-            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
-
-        return materia;
+        return await _context.Materias.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Materia> Insert(Materia materia)
     {
-        var novaMateria = new Materia
-        {
-            Codigo = materia.Codigo,
-            Nome = materia.Nome,
-            CargaHoraria = materia.CargaHoraria
-        };
-
-        await _context.Materias.AddAsync(novaMateria);
+        await _context.Materias.AddAsync(materia);
         await _context.SaveChangesAsync();
 
-        return novaMateria;
+        return materia;
     }
 
     public async Task<List<Materia>> GetAll()
     {
-        var materias = await _context.Materias.AsNoTracking().ToListAsync();
-
-        return materias;
+        return await _context.Materias.AsNoTracking().ToListAsync();
     }
 
-    public async Task<Materia> Delete(int id)
+    public async Task<Materia?> Delete(int id)
     {
         var materia = await _context.Materias.FindAsync(id);
         if (materia == null)
-            throw new KeyNotFoundException("Matéria com o ID fornecido não encontrada.");
+            return null;
 
         _context.Materias.Remove(materia);
         await _context.SaveChangesAsync();
@@ -72,10 +59,8 @@ public class MateriaRepository : IMateriaRepository
         return materia;
     }
 
-    public async Task CheckByCode(int codigo)
+    public async Task<bool> CheckByCode(int codigo)
     {
-        var materia = await _context.Materias.AnyAsync(x => x.Codigo == codigo);
-        if (materia)
-            throw new ArgumentException("Já existe uma matéria com o código fornecido.");
+        return await _context.Materias.AnyAsync(x => x.Codigo == codigo);
     }
 }

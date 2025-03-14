@@ -32,6 +32,7 @@ namespace Uesc.Api.Controller
             var materiasViewModel = materias.Select(a => new MateriaViewModel
             {
                 Id = a.Id,
+                Codigo = a.Codigo,
                 Nome = a.Nome,
                 CargaHoraria = a.CargaHoraria
             });
@@ -48,6 +49,7 @@ namespace Uesc.Api.Controller
            var materiaViewModel = new MateriaViewModel
            {
                Id = materia.Id,
+               Codigo = materia.Codigo,
                Nome = materia.Nome,
                CargaHoraria = materia.CargaHoraria
            };
