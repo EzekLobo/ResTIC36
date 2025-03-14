@@ -64,6 +64,7 @@ public class AlunoRepository : IAlunoRepository
 
         _context.Alunos.Remove(aluno);
         await _context.SaveChangesAsync();
+        
 
         return aluno;
     }

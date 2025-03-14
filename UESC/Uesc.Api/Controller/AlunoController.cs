@@ -25,8 +25,19 @@ public class AlunoController : ControllerBase
     public async Task<ActionResult<IEnumerable<AlunoViewModel>>> GetAll()
     {
         //return Ok(_alunoService.ListarAlunos());
+
+        var aluno = await _alunoRepository.GetAll();
+        var alunoViewModel = aluno.Select(a => new AlunoViewModel
+        {
+            Id = a.Id,
+            Nome = a.Nome,
+            Matricula = a.Matricula
+        });
+
+        return Ok(alunoViewModel);
+
   
-       return Ok(await _alunoRepository.GetAll());
+       
     }
 
     [HttpGet("{id}")]
@@ -35,6 +46,12 @@ public class AlunoController : ControllerBase
         //return Ok(_alunoService.BuscarAlunoPorId(id));
 
         var aluno = await _alunoRepository.GetById(id);
+        var alunoViewModel = new AlunoViewModel
+        {
+            Id = aluno.Id,
+            Nome = aluno.Nome,
+            Matricula = aluno.Matricula
+        };
 
         return Ok(aluno);
     }
@@ -47,7 +64,13 @@ public class AlunoController : ControllerBase
             Nome = aluno.Nome,
         });
 
-        return Ok(alunoAtualizado);
+        var alunoViewModel = new AlunoViewModel
+        {
+            Id = alunoAtualizado.Id,
+            Nome = alunoAtualizado.Nome,
+            Matricula = alunoAtualizado.Matricula
+        };
+        return Ok(alunoViewModel);
     }
 
     [HttpPost]
@@ -60,6 +83,13 @@ public class AlunoController : ControllerBase
             Matricula = aluno.Matricula
         });
 
+        var alunoViewModel = new AlunoViewModel
+        {
+            Id = alunoInserido.Id,
+            Nome = alunoInserido.Nome,
+            Matricula = alunoInserido.Matricula
+        };
+
         return Ok(alunoInserido);
     }
 
@@ -67,6 +97,12 @@ public class AlunoController : ControllerBase
     public async Task<ActionResult<AlunoViewModel>> Delete(int id)
     {
         var alunoDeletado = await _alunoService.Delete(id);
-        return Ok(alunoDeletado);
+        var alunoViewModel = new AlunoViewModel
+        {
+            Id = alunoDeletado.Id,
+            Nome = alunoDeletado.Nome,
+            Matricula = alunoDeletado.Matricula
+        };
+        return Ok(alunoViewModel);
     }
 }

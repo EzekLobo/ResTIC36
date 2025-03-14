@@ -30,11 +30,18 @@ public class MatriculaController : ControllerBase
 
     
     [HttpGet("materias/{alunoId}")]
-    public async Task<ActionResult<Materia>> GetById(int alunoId)
+    public async Task<ActionResult<MateriaViewModel>> GetById(int alunoId)
     {
         var matricula = await _matriculaRepository.GetById(alunoId);
         
+        var materiaViewModel = matricula.Select(m => new MateriaViewModel
+        {
+            Id = m.Id,
+            Nome = m.Nome,
+            CargaHoraria = m.CargaHoraria
+        });
 
-        return Ok(matricula);
+        return Ok(materiaViewModel);
+        
     }
 }

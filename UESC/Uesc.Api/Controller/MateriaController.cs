@@ -27,15 +27,32 @@ namespace Uesc.Api.Controller
         public async Task<ActionResult<List<Materia>>> GetAll()
         {
             //return await  _materiaService.ListarMaterias();
-            return await _materiaRepository.GetAll();
+            var materias = await _materiaRepository.GetAll();
+
+            var materiasViewModel = materias.Select(a => new MateriaViewModel
+            {
+                Id = a.Id,
+                Nome = a.Nome,
+                CargaHoraria = a.CargaHoraria
+            });
+
+            return Ok(materiasViewModel);
         }
 
         [HttpGet("{id}")]
         public async Task <ActionResult<MateriaViewModel>> GetById(int id)
         {
            //return await _materiaService.BuscarMateriaPorId(id);
-           var aluno =  await _materiaRepository.GetById(id);
-           return Ok(aluno);
+           var materia =  await _materiaRepository.GetById(id);
+
+           var materiaViewModel = new MateriaViewModel
+           {
+               Id = materia.Id,
+               Nome = materia.Nome,
+               CargaHoraria = materia.CargaHoraria
+           };
+
+           return Ok(materiaViewModel);
         }
 
         [HttpPost]
@@ -47,7 +64,16 @@ namespace Uesc.Api.Controller
                 Nome = materia.Nome,
                 CargaHoraria = materia.CargaHoraria,
             });
-            return Ok(materiaInserida);
+
+            var materiaViewModel = new MateriaViewModel
+            {
+                Id = materiaInserida.Id,
+                Nome = materiaInserida.Nome,
+                CargaHoraria = materiaInserida.CargaHoraria
+            };
+
+
+            return Ok(materiaViewModel);
         }
 
         [HttpPut("{id}")]
@@ -58,14 +84,29 @@ namespace Uesc.Api.Controller
                 Nome = materia.Nome,
                 CargaHoraria = materia.CargaHoraria,
             });
-            return Ok(alunoAtualizado);
+
+            var materiaViewModel = new MateriaViewModel
+            {
+                Id = alunoAtualizado.Id,
+                Nome = alunoAtualizado.Nome,
+                CargaHoraria = alunoAtualizado.CargaHoraria
+            };
+
+            return Ok(materiaViewModel);
         }
 
         [HttpDelete("{id}")]
         public async Task <ActionResult<MateriaViewModel>> Delete(int id)
         {
-            var aluno = await _materiaService.Delete(id);
-            return Ok(aluno);
+            var materia = await _materiaService.Delete(id);
+
+            var materiaViewModel = new MateriaViewModel
+            {
+                Id = materia.Id,
+                Nome = materia.Nome,
+                CargaHoraria = materia.CargaHoraria
+            };
+            return Ok(materiaViewModel);
         }
         
 
